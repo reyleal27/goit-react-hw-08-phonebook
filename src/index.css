@@ -2,7 +2,9 @@ body{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  background-color: rgb(212, 199, 199);
 }
+
 
 .phonebook-wrapper{
  margin: 10px auto;
@@ -17,3 +19,13 @@ body{
   text-align: center;
   font-weight: 600;
 }
+
+.Navlinks {
+  text-decoration: none;
+}
+
+/* .form{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */

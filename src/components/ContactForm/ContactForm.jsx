@@ -3,15 +3,14 @@ import { useState } from 'react';
 import Proptypes from 'prop-types';
 import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix';
+import { Button } from '@chakra-ui/react';
 
 const ContactForm = ({ addContact, contacts }) => {
- 
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
-
   const handleNameChange = e => {
-    setName(e.target.value)
+    setName(e.target.value);
   };
   const handleNumberChange = e => {
     setNumber(e.target.value);
@@ -19,7 +18,6 @@ const ContactForm = ({ addContact, contacts }) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    
 
     if (name.trim() === '' || number.trim() === '') {
       return;
@@ -38,7 +36,7 @@ const ContactForm = ({ addContact, contacts }) => {
         position: 'center-top',
       });
     }
-    
+
     addContact({
       id: nanoid(),
       name: name.trim(),
@@ -47,55 +45,61 @@ const ContactForm = ({ addContact, contacts }) => {
 
     setName('');
     setNumber('');
+  };
 
-  }
+  return (
+    <form className="contact-form" onSubmit={handleSubmit}>
+      <label className="label">
+        Name
+        <input
+          className="input"
+          type="text"
+          name="name"
+          pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan."
+          required
+          value={name}
+          onChange={handleNameChange}
+        />
+      </label>
 
-    return (
-      <form className="contact-form" onSubmit={ handleSubmit }>
-        <label className="label">
-          Name
-          <input
-            className="input"
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan."
-            required
-            value={name}
-            onChange={handleNameChange}
-          />
-        </label>
-
-        <label className="label">
-          Number
-          <input
-            className="input"
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-            value={number}
-            onChange={handleNumberChange}
-          />
-        </label>
-        <button className="button" type="submit">
-          Add Contact
-        </button>
-      </form>
-    );
-  }
-
-
- ContactForm.propTypes = {
-    addContact: Proptypes.func.isRequired,
-    contacts: Proptypes.arrayOf(
-      Proptypes.shape({
-        id: Proptypes.string.isRequired,
-        name: Proptypes.string.isRequired,
-        number: Proptypes.string.isRequired,
-      })
-    ),
+      <label className="label">
+        Number
+        <input
+          className="input"
+          type="tel"
+          name="number"
+          pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
+          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+          required
+          value={number}
+          onChange={handleNumberChange}
+        />
+      </label>
+      <Button
+        width="200px"
+        padding="10px 20px"
+        cursor="pointer"
+        bg="green"
+        fontSize={20}
+        color={'whitesmoke'}
+        type="submit"
+      >
+        Add Contact
+      </Button>
+    </form>
+  );
 };
-  
+
+ContactForm.propTypes = {
+  addContact: Proptypes.func.isRequired,
+  contacts: Proptypes.arrayOf(
+    Proptypes.shape({
+      id: Proptypes.string.isRequired,
+      name: Proptypes.string.isRequired,
+      number: Proptypes.string.isRequired,
+    })
+  ),
+};
+
 export default ContactForm;
