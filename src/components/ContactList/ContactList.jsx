@@ -1,28 +1,28 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ContactListItem } from 'components/ContactListItem/ContactListItem';
 import PropTypes from 'prop-types';
 
-export class ContactList extends Component {
-
-  render() {
-    const { filterContact, deleteContact } = this.props;
-    const filteredContacts = filterContact();
-
-    return (
-      <ul className='contact-list'>
-        {filteredContacts.map(filteredContact => (
-          <ContactListItem
-            key={filteredContact.id}
-            filteredContact={filteredContact}
-            deleteContact={deleteContact}
-          />
-        ))}
-      </ul>
-    );
-  }
+export const ContactList = ({ contacts, deleteContact }) => {
+  return (
+    <ul className="contact-list">
+      {contacts.map(contact => (
+        <ContactListItem
+          key={contact.id}
+          filteredContact={contact}
+          deleteContact={deleteContact}
+        />
+      ))}
+    </ul>
+  );
 };
 
 ContactList.propTypes = {
-    filterContact: PropTypes.func.isRequired,
-    deleteContact: PropTypes.func.isRequired,
-}
+  contacts: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      number: PropTypes.string.isRequired,
+    }).isRequired
+  ).isRequired,
+  deleteContact: PropTypes.func.isRequired,
+};

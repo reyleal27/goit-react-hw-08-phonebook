@@ -15,16 +15,15 @@ import {
   deleteContact,
 } from '../../redux/operation';
 import { useEffect } from 'react';
-import { Header } from 'components/ContactForm/Header/Header';
-import { selectUser } from '../../redux/auth/authSelector';
 
-const Phonebook = () => {
+
+export const ContactsPage = () => {
   const dispatch = useDispatch();
   const error = useSelector(selectError);
   const isLoading = useSelector(selectIsLoading);
   const filter = useSelector(selectFilter);
     const visibleContacts = useSelector(selectVisibleContacts);
-    const user = useSelector(selectUser); 
+
 
   useEffect(() => {
     dispatch(fetchContacts());
@@ -46,7 +45,7 @@ const Phonebook = () => {
 
   return (
     <>
-      <Header name={user.name}/>
+    
       <div className="phonebook-wrapper">
         <h1>Phonebook</h1>
         <ContactForm addContact={handleAddContact} contacts={visibleContacts} />
@@ -57,7 +56,7 @@ const Phonebook = () => {
         {error && <h3>Error:{error}</h3>}
         {visibleContacts.length > 0 ? (
           <ContactList
-            filterContact={visibleContacts}
+            contacts={visibleContacts}
             deleteContact={handleDeleteContact}
           />
         ) : (
@@ -67,5 +66,3 @@ const Phonebook = () => {
     </>
   );
 };
-
-export default Phonebook;

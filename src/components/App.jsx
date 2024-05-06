@@ -1,23 +1,62 @@
-import { Register } from './pages/RegisterPage';
-import Phonebook from './pages/Phonebook';
-import { Route, Routes } from 'react-router-dom';
-import { LoginPage } from './pages/LoginPage';
-import { SharedLayout } from './SharedLayout/SharedLayout';
-import { Home } from './pages/Home';
+import React from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { SharedLayout } from '../components/SharedLayout/SharedLayout';
+import { RegisterPage } from '../components/pages/RegisterPage';
+import { LoginPage } from '../components/pages/LoginPage';
+import { ContactsPage } from '../components/pages/ContactsPage';
+import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
+import { PrivateRoute } from './PrivateRoute/PrivateRoute';
+import { HomePage } from '../components/pages/HomePage';
+import { useDispatch } from 'react-redux';
+import { useAuth } from '../redux/hooks/useAuth';
+import { useEffect } from 'react';
+import { refreshUser } from '../redux/auth/authOperation';
 
-const App = () => {
-  return (
-    <div>
+export const App = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isRefreshing } = useAuth();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+    navigate('/contacts');
+  }, [dispatch, navigate]);
+
+  return isRefreshing ? (
+    <h1>Refreshing user... Please wait...</h1>
+  ) : (
+    <>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
-          <Route index element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<LoginPage />} />
+          <Route index element={<HomePage />} />
+          <Route
+            path="/register"
+            element={
+              <RestrictedRoute
+                component={RegisterPage}
+                redirectTo="/contacts"
+              />
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <RestrictedRoute component={LoginPage} redirectTo="/contacts" />
+            }
+          />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute component={ContactsPage} redirectTo="/login" />
+            }
+          />
+          <Route
+            path="/logout"
+            element={<PrivateRoute component={HomePage} redirectTo="/" />}
+          />
         </Route>
-        <Route path="/contacts" element={<Phonebook />}></Route>
       </Routes>
-    </div>
+    </>
   );
 };
-
-export default App;

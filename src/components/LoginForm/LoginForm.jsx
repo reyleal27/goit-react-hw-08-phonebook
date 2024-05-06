@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  FormLabel,
-  Button,
-  Container,
-   Text,
-  Input,
-} from '@chakra-ui/react';
+import { FormLabel, Button, Text, Input } from '@chakra-ui/react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { Link as ChakraLink } from '@chakra-ui/react';
 import { useDispatch } from 'react-redux';
@@ -17,7 +11,8 @@ export const LoginForm = () => {
   const handleSubmit = e => {
     e.preventDefault();
     const form = e.currentTarget;
-    dispatch(login({
+    dispatch(
+      login({
         email: form.elements.email.value,
         password: form.elements.password.value,
       })
@@ -26,53 +21,57 @@ export const LoginForm = () => {
   };
 
   return (
-    <Container padding={10} maxW="2xl" centerContent>
-       
-      <form onSubmit={handleSubmit} autoComplete="off">
-        <FormLabel color="white" fontFamily="roboto">
-          Email
-        </FormLabel>
+    <form className="form" onSubmit={handleSubmit} autoComplete="off">
+      <FormLabel
+        color="white"
+        fontFamily="roboto"
+        display="flex"
+        flexDirection={'column'}
+      >
+        Email
         <Input
-          width={300}
           name="email"
+          width={350}
           errorBorderColor="crimson"
           type="email"
-          placeholder="email"
+          placeholder="Your email"
           _placeholder={{ color: 'red.300' }}
-        ></Input>
-        <FormLabel color="white" fontFamily="roboto" paddingTop={5}>
-          Password
-        </FormLabel>
+          required
+        />
+      </FormLabel>
+
+      <FormLabel color="white" fontFamily="roboto" paddingTop={5}>
+        Password
         <Input
           errorBorderColor="crimson"
-          _placeholder={{ color: 'red.300' }}
-          name="password"
           type="password"
-          placeholder="password"
-        ></Input>
-
-        <Button
-          width={100}
-          padding="8px 6px"
-          bg="blue.400"
-          display="block"
-          margin="30px auto"
-          type="submit"
+          name="password"
+          placeholder="Should be at least 7 characters"
+          _placeholder={{ color: 'red.300' }}
+          required
+        />
+      </FormLabel>
+      <Button
+        width={100}
+        padding="8px 6px"
+        bg="blue.400"
+        display="block"
+        margin="30px auto"
+        type="submit"
+      >
+        Login
+      </Button>
+      <Text>
+        Not yet registered?{' '}
+        <ChakraLink
+          as={ReactRouterLink}
+          color="blue"
+          fontSize="18px"
+          to="/register"
         >
-          Login
-        </Button>
-        <Text>
-          Not yet registered?{' '}
-          <ChakraLink
-            as={ReactRouterLink}
-            color="blue"
-            fontSize="18px"
-            to="/register"
-          >
-            Signup
-          </ChakraLink>
-        </Text>
-      </form>
-    </Container>
+          Signup
+        </ChakraLink>
+      </Text>
+    </form>
   );
 };

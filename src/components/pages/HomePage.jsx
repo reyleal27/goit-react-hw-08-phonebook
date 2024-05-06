@@ -2,9 +2,15 @@ import { Button, Container, Text } from '@chakra-ui/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export const Home = () => {
+export const HomePage = () => {
   return (
-    <Container centerContent h={400} gap={10} paddingTop={10}>
+    <Container
+      centerContent
+      h={400}
+      gap={10}
+      paddingTop={10}
+      bgGradient="linear(blue.200,blue.600,red.200)"
+    >
       <Text fontSize="6xl" color="blue.500" fontFamily="roboto">
         WELCOME
       </Text>
