@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../redux/hooks/useAuth';
 
@@ -10,5 +9,5 @@ import { useAuth } from '../../redux/hooks/useAuth';
 export const RestrictedRoute = ({component:Component, redirectTo='/'}) => {
     const { isLoggedin } = useAuth();
 
-    return isLoggedin ? <Navigate to={redirectTo} /> : <Component />;
+    return isLoggedin ? <Navigate to={redirectTo} /> : <Component/>;
 }

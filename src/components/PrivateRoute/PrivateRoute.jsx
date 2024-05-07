@@ -1,4 +1,3 @@
-import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../../redux/hooks/useAuth';
 
@@ -8,7 +7,8 @@ import { useAuth } from '../../redux/hooks/useAuth';
  */
 
 export const PrivateRoute = ({ component: Component, redirectTo = '/' }) => {
-    const { isLoggedIn } = useAuth();
-    const shouldRedirectTo = !isLoggedIn;
-    return shouldRedirectTo ? <Navigate to={redirectTo} /> : <Component />
+    const { isLoggedIn, isRefreshing} = useAuth();
+    const shouldRedirectTo = !isLoggedIn && !isRefreshing; 
+    
+    return shouldRedirectTo ? <Navigate to={redirectTo} /> : <Component/>
 };
